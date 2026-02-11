@@ -90,8 +90,8 @@ const server = http.createServer(async (req, res) => {
             const user = users.find((u) => u.id === id );
             
             if (user){ 
-                user.name = body.name; 
-                user.idade = body.idade;
+                user.name = body.name || user.name; 
+                user.idade = body.idade || user.idade;
                 return sendJson(res, 201, user);
             }
 
