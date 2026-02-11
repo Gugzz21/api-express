@@ -13,5 +13,6 @@ router.get("/", (req, res) => {
     const start = (page - 1) * limit;
     const items = all.slice(start, start + limit);
 
+
     res.status(200).json({page, limit, total: all.lenght, items});
 })
