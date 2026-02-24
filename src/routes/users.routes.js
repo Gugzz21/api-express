@@ -15,4 +15,14 @@ router.get("/", (req, res) => {
 
 
     res.status(200).json({page, limit, total: all.lenght, items});
-})
+});
+
+
+// Criar rota get por id 
+
+// Criar rota POST 
+
+// Criar rota PUT 
+
+// Criar rota DELETE
+module.exports = router; 

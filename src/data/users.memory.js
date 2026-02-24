@@ -20,4 +20,9 @@ function create(name){
     return newUser;
 }
 
+
+// Criar método de edição 
+
+// Criar método de exclusão
+
 module.exports = {getAll, getById, create}
