@@ -22,7 +22,27 @@ function create(name){
 
 
 // Criar método de edição 
+function update(id, name){
+    const user = getById(id);
+
+    if(user == null) return null; 
+    
+    const index = users.findIndex(u => u.id === id);
+    users[index].name = name.trim();
+    return user; 
+}
 
 // Criar método de exclusão
+function remove(id){
+    const user = getById
 
-module.exports = {getAll, getById, create}
+    if(user == null) return null;
+     
+    const index = users.findIndex(u => u.id === id);
+    users.splice(index, 1);
+
+    return true; 
+
+}
+
+module.exports = {getAll, getById, create, update, remove};
