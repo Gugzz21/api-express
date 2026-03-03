@@ -1,10 +1,12 @@
 const express = require('express'); 
 repo = require('../data/users.memory');
+const {authenticateToken} = require("../middlewares/authenticateToken");
+const {authorizeRoles} = require("../middlewares/authorizeRoles");
 
 const router = express.Router(); 
 
 
-router.get("/", (req, res) => { 
+router.get("/", authenticateToken, authorizeRoles("admin"), (req, res) => { 
     const page = Number(req.query.page || 1);
     const limit = Number(req.query.limit || 10); 
 
@@ -14,12 +16,12 @@ router.get("/", (req, res) => {
     const items = all.slice(start, start + limit);
 
 
-    res.status(200).json({page, limit, total: all.lenght, items});
+    res.status(200).json({page, limit, total: all.length, items});
 });
 
 
 // Criar rota get por id 
-router.get("/:id", (req, res) => {
+router.get("/:id", authenticateToken, authorizeRoles("admin"), (req, res) => {
     const id = Number(req.params.id); 
 
     const user = repo.getById(id);
@@ -30,7 +32,7 @@ router.get("/:id", (req, res) => {
 });
 
 // Criar rota POST 
-router.post("/", (req, res) => {
+router.post("/", authenticateToken, authorizeRoles("user","admin"),(req, res) => {
     const name = req.body.name;
     const user = repo.create(name);
 
@@ -39,7 +41,7 @@ router.post("/", (req, res) => {
 });
 
 // Criar rota PUT 
-router.put("/:id", (req, res) => { 
+router.put("/:id", authenticateToken, authorizeRoles("user","admin"),(req, res) => { 
     const id = Number(req.params.id); 
     const name = req.body.name;
 
@@ -51,7 +53,7 @@ router.put("/:id", (req, res) => {
 
 
 // Criar rota DELETE
-router.delete("/:id", (req, res) => { 
+router.delete("/:id", authenticateToken, authorizeRoles("admin"), (req, res) => { 
     const id = Number(req.params.id); 
 
     const user = repo.remove(id);
@@ -59,4 +61,5 @@ router.delete("/:id", (req, res) => {
 
     res.status(204).json({user, message:"Usuário deletado com sucesso."}); 
 });
+
 module.exports = router; 
